@@ -1,0 +1,10 @@
+/* Dai An brand typography. Self-hosted for consistent Vercel rendering. */
+@font-face{font-family:'Exo';font-style:normal;font-weight:100 900;font-display:swap;src:url('assets/Exo-Variable.ttf') format('truetype')}
+@font-face{font-family:'SVN-Gilroy';font-style:normal;font-weight:300;font-display:swap;src:url('assets/SVN-Gilroy-Light.woff') format('woff')}
+@font-face{font-family:'SVN-Gilroy';font-style:normal;font-weight:700;font-display:swap;src:url('assets/SVN-Gilroy-Bold.woff') format('woff')}
+:root{--font-body:'SVN-Gilroy',Arial,sans-serif;--font-heading:'Exo','SVN-Gilroy',Arial,sans-serif}
+body{font-family:var(--font-body);font-weight:300}
+button,input,select,textarea{font-family:var(--font-body)}
+h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);font-weight:700;letter-spacing:normal}
+h1 button,h2 button,h3 button{font-family:inherit}
+strong,b,nav a,.button,.quick-item strong{font-weight:700}

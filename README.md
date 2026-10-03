@@ -39,3 +39,7 @@ Logo do khách hàng cung cấp. Ảnh hoạt động và các bài viết tóm 
 Hai video MP4 là trình chiếu ảnh fanpage, không có âm thanh, được ghi nhãn demo. File đã dựng sẵn; Vercel không cần FFmpeg. Có thể dựng lại bằng `python scripts/build-demo-videos.py` nếu máy có FFmpeg.
 
 Biểu mẫu không gửi hoặc lưu dữ liệu; không tạo lịch khám thực tế. Tra cứu chỉ dùng `DA-DEMO` / `0900000000`. Bệnh viện cần duyệt thông tin, hồ sơ, bảng giá và chính sách trước khi vận hành chính thức.
+
+## Font thương hiệu
+
+`brand-fonts.css` dùng Exo cho tiêu đề, SVN-Gilroy Light/Bold cho nội dung. Font được đóng gói trong `assets` và build Vercel; không tải CDN khi chạy. Chưa có file SVN-Gilroy Regular/Medium riêng. Xem `docs/typography.md` để biết nguồn font.

@@ -8,11 +8,11 @@ const output = path.join(root, 'dist');
 if (path.dirname(output) !== path.resolve(root)) throw new Error('Invalid build output');
 await rm(output, { recursive: true, force: true });
 await mkdir(path.join(output, 'assets'), { recursive: true });
-for (const file of ['index.html', 'base.css', 'styles.css', 'app.js', 'interactions.js']) {
+for (const file of ['index.html', 'base.css', 'styles.css', 'app.js', 'interactions.js', 'brand-fonts.css']) {
   await copyFile(path.join(root, file), path.join(output, file));
 }
 for (const asset of await readdir(path.join(root, 'assets'), { withFileTypes: true })) {
-  if (asset.isFile() && /\.(png|jpe?g|webp|svg|ico|avif|mp4)$/i.test(asset.name)) {
+  if (asset.isFile() && /\.(png|jpe?g|webp|svg|ico|avif|mp4|woff2?|ttf|txt)$/i.test(asset.name)) {
     await copyFile(path.join(root, 'assets', asset.name), path.join(output, 'assets', asset.name));
   }
 }
