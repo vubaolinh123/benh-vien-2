@@ -34,7 +34,7 @@ const notes: Record<ContentItem["kind"], string> = {
     "Khối ĐỘI NGŨ BÁC SĨ khi trang chủ chọn chế độ hồ sơ bác sĩ hoặc tự động.",
   page: "Trang thông tin theo slug. Giới thiệu trang chủ chỉnh trong Thông tin bệnh viện.",
   banner:
-    "Slider đầu trang, ngay dưới menu. Có mô tả sẽ dùng bố cục ảnh và chữ; để mô tả trống sẽ hiển thị ảnh banner toàn chiều ngang.",
+    "Slider đầu trang, ngay dưới menu. Banner chỉ hiển thị ảnh, toàn chiều ngang và không kèm chữ; nên dùng ảnh 1920 × 730 px. Tiêu đề chỉ dùng làm mô tả ảnh.",
   gallery:
     "Lưới CƠ SỞ VẬT CHẤT và cột HÌNH ẢNH. Ảnh ưu tiên chọn trong Cấu hình trang chủ.",
   video: "Cột VIDEO cạnh thư viện ảnh và trang Thư viện video.",
@@ -204,8 +204,7 @@ export default function ContentPanel() {
                 onChange={(event) => field("summary", event.target.value)}
               />
               <small>
-                Mô tả dưới tiêu đề; với banner, nội dung này bật bố cục ảnh và
-                chữ.
+                Mô tả dưới tiêu đề; banner không hiển thị nội dung này.
               </small>
             </label>
             {["promotion", "editorial_link"].includes(kind) && (
@@ -269,7 +268,8 @@ export default function ContentPanel() {
                   }
                 />
                 <small>
-                  Địa chỉ đích của nút/thẻ. Banner để trống sẽ mở đặt lịch.
+                  Địa chỉ đích của nút/thẻ. Với banner: bấm vào ảnh sẽ mở liên
+                  kết này; để trống thì ảnh không bấm được.
                 </small>
               </label>
             )}
@@ -326,7 +326,7 @@ export default function ContentPanel() {
                 )}
               </>
             )}
-            {["promotion", "care_activity", "banner"].includes(kind) && (
+            {["promotion", "care_activity"].includes(kind) && (
               <label className="field">
                 Dòng chữ nhỏ
                 <input
@@ -340,7 +340,7 @@ export default function ContentPanel() {
                 </small>
               </label>
             )}
-            {["promotion", "banner"].includes(kind) && (
+            {kind === "promotion" && (
               <label className="field">
                 Nhãn nút bấm
                 <input
@@ -349,8 +349,7 @@ export default function ContentPanel() {
                   onChange={(event) => field("buttonLabel", event.target.value)}
                 />
                 <small>
-                  Thay chữ của nút trên banner/thẻ ảnh; để trống dùng nhãn mặc
-                  định.
+                  Thay chữ của nút trên thẻ ảnh; để trống dùng nhãn mặc định.
                 </small>
               </label>
             )}
