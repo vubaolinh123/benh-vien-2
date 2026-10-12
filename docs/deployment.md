@@ -51,7 +51,7 @@ Frontend proxy `/api/*` sang backend nên trình duyệt dùng cùng origin; JWT
 - Ảnh có sẵn: WebP nhiều kích thước tạo lúc build, tên có hash; cache một năm. Ảnh tải lên: xác minh bytes, giới hạn 20 MB/50 triệu pixel, chuyển WebP, tên UUID không ghi đè, cache một năm.
 - Trang quản trị và form dùng dynamic import; tìm kiếm gần đây dùng dữ liệu đã tải; không có polling trên dashboard.
 - MongoDB dùng pool tối đa 10, index cho danh sách và TTL cho session/thống kê; list API phân trang tối đa 100 bản ghi. Excel dùng cursor và streaming.
-- API giới hạn 180 yêu cầu/phút/IP, login 10/15 phút, đăng ký/góp ý tổng 5/15 phút/IP; cần xem xét mức phù hợp nếu nhiều người cùng mạng bệnh viện. Giới hạn hiện dùng bộ nhớ của từng tiến trình; nếu chạy nhiều replica, thêm Redis store hoặc giới hạn tại gateway.
+- API giới hạn 1000 yêu cầu/phút/IP, login 30/15 phút, đăng ký/góp ý tổng 100/15 phút/IP; cần xem xét mức phù hợp nếu nhiều người cùng mạng bệnh viện. Giới hạn hiện dùng bộ nhớ của từng tiến trình; nếu chạy nhiều replica, thêm Redis store hoặc giới hạn tại gateway.
 
 Cache và giới hạn API giúp giảm tải, không bảo đảm chống mọi DDoS. Bật Firewall/rate limit trên Vercel và CDN/gateway của API. Chặn lưu lượng bất thường ở biên trước khi đến Node.js. Không đưa dashboard/đăng ký/Excel vào cache công khai. Giám sát HTTP 429/5xx, CPU, memory, pool MongoDB, disk ảnh và thời gian xử lý API; không log body có dữ liệu khách hàng.
 

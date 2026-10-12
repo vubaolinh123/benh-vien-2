@@ -14,6 +14,13 @@ const paths: Record<string, ReactNode> = {
       <path d="M9 21v-8h6v8" />
     </>
   ),
+  library: (
+    <>
+      <rect x="3" y="4" width="13" height="13" rx="2" />
+      <path d="m3 14 4-4 4 4 2-2 3 3M8 20h11a2 2 0 0 0 2-2V8" />
+      <circle cx="11.5" cy="8.5" r="1" />
+    </>
+  ),
   posts: (
     <>
       <path d="M15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9" />

@@ -26,6 +26,7 @@ const Feedback = dynamic(() => import("./feedback-panel"), { loading });
 const Content = dynamic(() => import("./content-panel"), { loading });
 const Settings = dynamic(() => import("./settings-panel"), { loading });
 const Homepage = dynamic(() => import("./homepage-panel"), { loading });
+const Library = dynamic(() => import("./library-panel"), { loading });
 const tabs: { id: string; name: string; roles: Role[] }[] = [
   { id: "dashboard", name: "Tổng quan", roles: ["administrator"] },
   { id: "homepage", name: "Trang chủ", roles: ["administrator"] },
@@ -35,6 +36,11 @@ const tabs: { id: string; name: string; roles: Role[] }[] = [
     roles: ["administrator", "communications"],
   },
   { id: "posts", name: "Bài viết", roles: ["administrator", "communications"] },
+  {
+    id: "library",
+    name: "Hình ảnh & Video",
+    roles: ["administrator", "communications"],
+  },
   {
     id: "appointments",
     name: "Đăng ký khám",
@@ -299,6 +305,9 @@ export default function AdminApp() {
           )}
           {tab === "posts" && available.some((item) => item.id === tab) && (
             <Posts />
+          )}
+          {tab === "library" && available.some((item) => item.id === tab) && (
+            <Library />
           )}
           {tab === "appointments" &&
             available.some((item) => item.id === tab) && (
