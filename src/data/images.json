@@ -1,0 +1,68 @@
+{
+  "4c135fdb1e0c0e75.png": {
+    "width": 590,
+    "height": 380,
+    "fallback": "/assets/generated/4c135fdb1e0c0e75-590-10a364a00c09.webp",
+    "srcSet": "/assets/generated/4c135fdb1e0c0e75-480-dd7eb488f645.webp 480w, /assets/generated/4c135fdb1e0c0e75-590-10a364a00c09.webp 590w"
+  },
+  "55d1223a1ac3ed1d.png": {
+    "width": 590,
+    "height": 443,
+    "fallback": "/assets/generated/55d1223a1ac3ed1d-590-e9dd958f7a3a.webp",
+    "srcSet": "/assets/generated/55d1223a1ac3ed1d-480-adc51633dc0f.webp 480w, /assets/generated/55d1223a1ac3ed1d-590-e9dd958f7a3a.webp 590w"
+  },
+  "641c18a1433a7a69.png": {
+    "width": 526,
+    "height": 526,
+    "fallback": "/assets/generated/641c18a1433a7a69-526-3fd9cc49eed8.webp",
+    "srcSet": "/assets/generated/641c18a1433a7a69-480-cdd928ea413b.webp 480w, /assets/generated/641c18a1433a7a69-526-3fd9cc49eed8.webp 526w"
+  },
+  "9005f84045d8d7a6.png": {
+    "width": 295,
+    "height": 590,
+    "fallback": "/assets/generated/9005f84045d8d7a6-295-9990130c8933.webp",
+    "srcSet": "/assets/generated/9005f84045d8d7a6-295-9990130c8933.webp 295w"
+  },
+  "98e18acf2b0b12e7.png": {
+    "width": 590,
+    "height": 468,
+    "fallback": "/assets/generated/98e18acf2b0b12e7-590-16b692145bbf.webp",
+    "srcSet": "/assets/generated/98e18acf2b0b12e7-480-3c12904ebd17.webp 480w, /assets/generated/98e18acf2b0b12e7-590-16b692145bbf.webp 590w"
+  },
+  "9d44f85881139d9f.png": {
+    "width": 960,
+    "height": 365,
+    "fallback": "/assets/generated/9d44f85881139d9f-960-95b5b201eff4.webp",
+    "srcSet": "/assets/generated/9d44f85881139d9f-480-0efd63558eb8.webp 480w, /assets/generated/9d44f85881139d9f-960-95b5b201eff4.webp 960w"
+  },
+  "9f782df485306de5.jpg": {
+    "width": 590,
+    "height": 332,
+    "fallback": "/assets/generated/9f782df485306de5-590-c64faa4280d6.webp",
+    "srcSet": "/assets/generated/9f782df485306de5-480-53749b6feeca.webp 480w, /assets/generated/9f782df485306de5-590-c64faa4280d6.webp 590w"
+  },
+  "adc8d1977f6d574e.png": {
+    "width": 590,
+    "height": 443,
+    "fallback": "/assets/generated/adc8d1977f6d574e-590-ba75f6f20641.webp",
+    "srcSet": "/assets/generated/adc8d1977f6d574e-480-886d39fe7e78.webp 480w, /assets/generated/adc8d1977f6d574e-590-ba75f6f20641.webp 590w"
+  },
+  "b89bed8cfcf32aa1.png": {
+    "width": 585,
+    "height": 414,
+    "fallback": "/assets/generated/b89bed8cfcf32aa1-585-3c186529acf3.webp",
+    "srcSet": "/assets/generated/b89bed8cfcf32aa1-480-90b8f4c0ed94.webp 480w, /assets/generated/b89bed8cfcf32aa1-585-3c186529acf3.webp 585w"
+  },
+  "Dai_An-01.png": {
+    "width": 2087,
+    "height": 944,
+    "fallback": "/assets/generated/Dai_An-01-2087-ef0415754ff4.webp",
+    "srcSet": "/assets/generated/Dai_An-01-480-b19a3f184cfb.webp 480w, /assets/generated/Dai_An-01-960-9b3a2719435a.webp 960w, /assets/generated/Dai_An-01-1440-f89e3891038a.webp 1440w, /assets/generated/Dai_An-01-1920-0c47d53ce633.webp 1920w, /assets/generated/Dai_An-01-2087-ef0415754ff4.webp 2087w"
+  },
+  "design-reference.png": {
+    "width": 1448,
+    "height": 1086,
+    "fallback": "/assets/generated/design-reference-1448-39ee8370534e.webp",
+    "srcSet": "/assets/generated/design-reference-480-08b8d70669fe.webp 480w, /assets/generated/design-reference-960-0e64442ce0d0.webp 960w, /assets/generated/design-reference-1440-c17e41899526.webp 1440w, /assets/generated/design-reference-1448-39ee8370534e.webp 1448w"
+  }
+}

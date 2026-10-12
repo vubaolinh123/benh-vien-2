@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+dist
+.git
+.env*
+preview
+test-results
+playwright-report
+uploads

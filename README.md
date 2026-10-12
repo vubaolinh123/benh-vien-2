@@ -1,45 +1,68 @@
-# Bệnh viện Đại An — Demo 02
+# Frontend Bệnh viện Đa khoa Đại An
 
-Website HTML, CSS và JavaScript thuần. Demo 02 được đặt trực tiếp tại `/`.
+Website Next.js App Router/TypeScript cho `https://benhviendaian.vn`, triển khai trên Vercel. Backend Node.js/MongoDB nằm ngoài frontend và được cài đặt, build, triển khai độc lập.
 
-## Deploy Vercel
-
-1. Import repository `vubaolinh123/benh-vien-2` vào Vercel.
-2. Root Directory: để mặc định (thư mục gốc repository).
-3. Framework Preset: **Other**.
-4. Cấu hình trong `vercel.json` tự đặt Build Command `node scripts/build.mjs` và Output Directory `dist`.
-5. Deploy. Không cần biến môi trường, database hoặc cài thư viện.
-
-Đường dẫn cũ `/demo-2/` chuyển hướng về trang chủ `/` trên Vercel.
-
-## Chạy và build
-
-```sh
-node scripts/build.mjs
-python -m http.server 5501 --directory dist
+```text
+D:/ProjectWeb/
+  benh-vien-2/             Frontend Next.js (thư mục này)
+  benh-vien-2-backend/     Backend Express/MongoDB, .env và Docker
 ```
 
-Mở http://localhost:5501/. Build xóa và tạo lại duy nhất thư mục `dist` trong project.
+## Chạy frontend
 
-## Cấu trúc
+Yêu cầu Node.js 24. Sao chép `.env.example` thành `.env.local`; `API_INTERNAL_URL=http://127.0.0.1:4000` khi chạy cục bộ. Trên Vercel đổi thành HTTPS origin API riêng, không thêm `/api` ở cuối. Không đặt MongoDB URI, JWT secret hay mật khẩu quản trị trong frontend.
 
-- `index.html`: trang chủ demo 02.
-- `base.css`: kiểu nền và thành phần dùng chung.
-- `styles.css`: nhận diện, bố cục, responsive demo 02.
-- `app.js`: chuyên khoa, bài viết, biểu mẫu, tìm kiếm.
-- `interactions.js`: banner, đội ngũ, thư viện, video, hỏi đáp.
-- `assets/`: logo, hình ảnh và MP4, được đóng gói tại chỗ.
-- `scripts/build.mjs`: build static dành cho Vercel.
-- `docs/section-audit.md`: đối chiếu các section trang tham chiếu.
+```sh
+npm ci
+npm run dev
+```
 
-## Nội dung demo
+Website: `http://localhost:3000`. Quản trị: `http://localhost:3000/admin/`. Backend cần chạy trước để frontend đọc nội dung và đăng nhập. Xem [hướng dẫn backend](../benh-vien-2-backend/README.md).
 
-Logo do khách hàng cung cấp. Ảnh hoạt động và các bài viết tóm lược lấy từ fanpage https://www.facebook.com/bvdkdaian/; bài viết có liên kết nguồn trong `app.js`. Ảnh Sản/Tai Mũi Họng dùng mẫu thiết kế khách hàng cung cấp. Hồ sơ bác sĩ và danh mục chưa xác nhận được ghi là minh họa.
+## Cấu trúc frontend
 
-Hai video MP4 là trình chiếu ảnh fanpage, không có âm thanh, được ghi nhãn demo. File đã dựng sẵn; Vercel không cần FFmpeg. Có thể dựng lại bằng `python scripts/build-demo-videos.py` nếu máy có FFmpeg.
+```text
+src/
+  app/                  Routes, layouts, metadata, sitemap và robots
+  components/
+    home/               Các phần trang chủ
+    layout/             Header, dropdown, footer và nội dung dùng chung
+    ui/                 Nút hành động, liên kết, ảnh responsive
+  features/
+    admin/              Quản trị, bài viết, đăng ký khám và dashboard
+    dialog/             Hộp thoại/biểu mẫu tải khi cần
+  lib/                  API clients, cấu hình domain và SEO
+  types/                Kiểu dữ liệu frontend
+  data/                 Manifest ảnh tạo lúc build
+  styles/               CSS chung, thương hiệu và quản trị
+public/assets/          Logo, fonts, ảnh và WebP có hash
+scripts/                Tối ưu ảnh và kiểm tra cấu hình frontend
+tests/e2e/              Kiểm thử trình duyệt desktop/mobile
+docs/                   Phạm vi, vận hành và triển khai
+```
 
-Biểu mẫu không gửi hoặc lưu dữ liệu; không tạo lịch khám thực tế. Tra cứu chỉ dùng `DA-DEMO` / `0900000000`. Bệnh viện cần duyệt thông tin, hồ sơ, bảng giá và chính sách trước khi vận hành chính thức.
+## Build và kiểm thử
 
-## Font thương hiệu
+```sh
+npm run typecheck
+npm run lint
+npm run build
+npm start
+```
 
-`brand-fonts.css` dùng Exo cho tiêu đề, SVN-Gilroy Light/Bold cho nội dung. Font được đóng gói trong `assets` và build Vercel; không tải CDN khi chạy. Chưa có file SVN-Gilroy Regular/Medium riêng. Xem `docs/typography.md` để biết nguồn font.
+`npm run build` chỉ build frontend. API cần online khi tạo trang từ dữ liệu đã xuất bản; nội dung làm mới bằng ISR 60 giây, sitemap 300 giây. Dialog và các phần quản trị dùng dynamic import. Cấu hình SEO dùng domain chính thức; đặt `NEXT_PUBLIC_ALLOW_INDEXING=false` cho preview.
+
+Trang chủ giữ lại ảnh/nội dung cũ và được quản lý toàn bộ qua MongoDB. Mục Trang chủ chỉnh menu, logo, SEO, tiêu đề, nút bấm và thứ tự/ẩn hiện 14 khối. Nội dung website chỉnh ảnh, thẻ, icon chuyên khoa và liên kết; Bài viết chỉnh tin tức/hỏi đáp. Backend tự chạy migration khi khởi động; có thể chạy `npm run setup:home` để bổ sung cấu hình. Các thay đổi admin về sau được giữ nguyên.
+
+Kiểm thử trình duyệt dùng MongoDB cô lập: mở terminal trong backend và chạy `npm ci`, `$env:TEST_API_PORT="4001"; npm run dev:fixture`. Trong frontend:
+
+```sh
+$env:API_INTERNAL_URL="http://127.0.0.1:4001"
+npm run build
+npx playwright install chromium
+npm run test:e2e
+```
+
+Fixture không đọc `.env` backend và không kết nối database thật. Nội dung thử chỉ xuất hiện trong môi trường này. Kiểm thử API chạy bằng `npm test` trong backend.
+
+Xem [phạm vi theo báo giá](docs/requirements.md), [triển khai](docs/deployment.md), [hướng dẫn quản trị](docs/user-guide.md) và [kết quả kiểm thử](docs/verification.md).

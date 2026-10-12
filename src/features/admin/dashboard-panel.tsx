@@ -1,0 +1,21 @@
+'use client';
+import { SiteLink } from '@/components/ui/site-link';
+
+
+import { useEffect, useState } from 'react';
+import { api } from '@/lib/client-api';
+import { Message } from './shared';
+interface Count { _id: string; count: number }
+interface Stats { appointments: number; feedback: number; pendingFeedback: number; publishedPosts: number; dailyVisits: Count[]; topPages: Count[]; appointmentStatuses: Count[]; registrations: Count[]; days: number }
+function Chart({ title, values, days }: { title: string; values: Count[]; days: number }) {
+  const [currentTime] = useState(() => Date.now());
+  const daily = Array.from({ length: days }, (_, index) => { const date = new Date(currentTime - (days - 1 - index) * 86400000).toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' }); return { _id: date, count: values.find(value => value._id === date)?.count ?? 0 }; });
+  const max = Math.max(1, ...daily.map(item => item.count));
+  const points = daily.map((item, index) => `${40 + index * 720 / Math.max(1, days - 1)},${180 - item.count * 140 / max}`).join(' ');
+  return <figure className="admin-chart"><figcaption>{title}</figcaption><svg viewBox="0 0 800 220" role="img" aria-label={`${title}: ${daily.reduce((total, item) => total + item.count, 0)} lượt trong ${days} ngày`}><line x1="40" y1="180" x2="760" y2="180" stroke="#d9e3ee" /><line x1="40" y1="40" x2="40" y2="180" stroke="#d9e3ee" /><text x="5" y="45">{max}</text><text x="20" y="184">0</text><polyline points={points} fill="none" stroke="#24b183" strokeWidth="3" /><text x="40" y="208">{daily[0]?._id}</text><text x="660" y="208">{daily.at(-1)?._id}</text></svg><details><summary>Xem bảng số liệu</summary><div className="admin-table-wrap"><table><thead><tr><th>Ngày</th><th>Số lượt</th></tr></thead><tbody>{daily.map(item => <tr key={item._id}><td>{item._id}</td><td>{item.count}</td></tr>)}</tbody></table></div></details></figure>;
+}
+export default function DashboardPanel() {
+  const [days, setDays] = useState(30); const [data, setData] = useState<Stats | null>(null); const [error, setError] = useState('');
+  useEffect(() => { let cancelled = false; void api<Stats>(`/admin/dashboard?days=${days}`).then(result => { if (!cancelled) { setData(result); setError(''); } }).catch(error => { if (!cancelled) setError(error.message); }); return () => { cancelled = true; }; }, [days]);
+  return <section><div className="admin-section-heading"><h2>Tổng quan</h2><label>Khoảng thời gian<select value={days} onChange={event => setDays(Number(event.target.value))}><option value={1}>Hôm nay</option><option value={7}>7 ngày</option><option value={30}>30 ngày</option></select></label></div><Message error={error} />{data ? <><div className="admin-stats"><article><span>Lượt truy cập</span><strong>{data.dailyVisits.reduce((sum, item) => sum + item.count, 0).toLocaleString('vi-VN')}</strong></article><article><span>Đăng ký khám</span><strong>{data.appointments.toLocaleString('vi-VN')}</strong></article><article><span>Góp ý</span><strong>{data.feedback.toLocaleString('vi-VN')}</strong><small>{data.pendingFeedback.toLocaleString('vi-VN')} chưa xử lý</small></article><article><span>Bài viết đã đăng</span><strong>{data.publishedPosts.toLocaleString('vi-VN')}</strong></article></div><p className="admin-note">Lượt truy cập được gộp theo ngày và trang, loại các lần tải lại từ cùng trình duyệt/IP trong ngày; số liệu có thể thấp hơn số lượt xem thực tế.</p><div className="admin-chart-grid"><Chart title="Lượt truy cập theo ngày" values={data.dailyVisits} days={days} /><Chart title="Đăng ký khám theo ngày" values={data.registrations} days={days} /></div><h3>Trang được xem nhiều</h3><div className="admin-table-wrap"><table><thead><tr><th>Trang</th><th>Lượt truy cập</th></tr></thead><tbody>{data.topPages.map(item => <tr key={item._id}><td><SiteLink href={item._id} target="_blank" rel="noopener">{item._id}</SiteLink></td><td>{item.count}</td></tr>)}</tbody></table></div><h3>Trạng thái đăng ký</h3><div className="admin-stats">{data.appointmentStatuses.map(item => <article key={item._id}><span>{{ new: 'Mới', contacted: 'Đã liên hệ', confirmed: 'Đã xác nhận', cancelled: 'Hủy' }[item._id]}</span><strong>{item.count}</strong></article>)}</div></> : <p role="status">Đang tải thống kê…</p>}</section>;
+}

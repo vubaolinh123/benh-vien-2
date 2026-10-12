@@ -2,7 +2,7 @@
 from pathlib import Path
 import subprocess
 
-assets = Path(__file__).resolve().parent.parent / 'assets'
+assets = Path(__file__).resolve().parent.parent / 'public' / 'assets'
 sequences = {
     'community-demo': ['adc8d1977f6d574e.png', '55d1223a1ac3ed1d.png', '9f782df485306de5.jpg'],
     'facilities-demo': ['4c135fdb1e0c0e75.png', 'b89bed8cfcf32aa1.png', '98e18acf2b0b12e7.png'],

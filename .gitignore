@@ -4,3 +4,12 @@ node_modules/
 preview/
 *.log
 *.zip
+.next/
+out/
+*.tsbuildinfo
+.env*
+!.env.example
+playwright-report/
+test-results/
+public/assets/generated/
+uploads/
