@@ -34,7 +34,7 @@ const notes: Record<ContentItem["kind"], string> = {
     "Khối ĐỘI NGŨ BÁC SĨ khi trang chủ chọn chế độ hồ sơ bác sĩ hoặc tự động.",
   page: "Trang thông tin theo slug. Giới thiệu trang chủ chỉnh trong Thông tin bệnh viện.",
   banner:
-    "Slider đầu trang, ngay dưới menu. Banner chỉ hiển thị ảnh, toàn chiều ngang và không kèm chữ; nên dùng ảnh 1920 × 730 px. Tiêu đề chỉ dùng làm mô tả ảnh.",
+    "Slider tự chạy ở đầu trang. Có ảnh: chỉ hiển thị ảnh toàn chiều ngang (nên dùng 1920 × 800 px). Không chọn ảnh: thành slide giới thiệu dạng chữ gồm dòng chữ nhỏ, tiêu đề và tóm tắt. Slide ảnh và slide chữ tự xếp xen kẽ nhau.",
   gallery:
     "Lưới CƠ SỞ VẬT CHẤT và cột HÌNH ẢNH. Ảnh ưu tiên chọn trong Cấu hình trang chủ.",
   video: "Cột VIDEO cạnh thư viện ảnh và trang Thư viện video.",
@@ -204,7 +204,8 @@ export default function ContentPanel() {
                 onChange={(event) => field("summary", event.target.value)}
               />
               <small>
-                Mô tả dưới tiêu đề; banner không hiển thị nội dung này.
+                Mô tả dưới tiêu đề; với banner chỉ hiện trên slide chữ (banner
+                không có ảnh).
               </small>
             </label>
             {["promotion", "editorial_link"].includes(kind) && (
@@ -326,7 +327,7 @@ export default function ContentPanel() {
                 )}
               </>
             )}
-            {["promotion", "care_activity"].includes(kind) && (
+            {["promotion", "care_activity", "banner"].includes(kind) && (
               <label className="field">
                 Dòng chữ nhỏ
                 <input
@@ -340,7 +341,7 @@ export default function ContentPanel() {
                 </small>
               </label>
             )}
-            {kind === "promotion" && (
+            {["promotion", "banner"].includes(kind) && (
               <label className="field">
                 Nhãn nút bấm
                 <input
@@ -349,7 +350,8 @@ export default function ContentPanel() {
                   onChange={(event) => field("buttonLabel", event.target.value)}
                 />
                 <small>
-                  Thay chữ của nút trên thẻ ảnh; để trống dùng nhãn mặc định.
+                  Thay chữ của nút trên thẻ ảnh hoặc slide chữ; để trống dùng
+                  nhãn mặc định.
                 </small>
               </label>
             )}
