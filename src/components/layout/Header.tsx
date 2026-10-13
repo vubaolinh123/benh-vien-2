@@ -62,6 +62,9 @@ export function Header() {
             if ((event.target as HTMLElement).closest("a")) setMenuOpen(false);
           }}
         >
+          <SiteLink className="nav-home" href="/">
+            Trang chủ
+          </SiteLink>
           <IntroductionMenu onNavigate={() => setMenuOpen(false)} />
           {data.homepage?.navigation.map((link, index) => (
             <SiteLink key={index} href={link.href}>
