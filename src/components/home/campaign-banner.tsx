@@ -4,26 +4,13 @@ import { SiteLink } from "@/components/ui/site-link";
 import { useEffect, useState } from "react";
 import { usePublicSite } from "@/features/dialog/dialog-provider";
 import { ResponsiveImage } from "@/components/ui/responsive-image";
-import { ActionButton } from "@/components/ui/action-button";
-import type { ContentItem } from "@/types/content";
 
 const AUTOPLAY_MS = 5000;
-// Image banners and text-only introduction slides alternate, each group keeping its admin order.
-function alternate(banners: ContentItem[]) {
-  const images = banners.filter((banner) => banner.image);
-  const texts = banners.filter((banner) => !banner.image);
-  const slides: ContentItem[] = [];
-  for (let index = 0; index < Math.max(images.length, texts.length); index++) {
-    if (images[index]) slides.push(images[index]);
-    if (texts[index]) slides.push(texts[index]);
-  }
-  return slides;
-}
 export function CampaignBanner() {
   const data = usePublicSite();
-  const copy = data.homepage?.copy || {};
-  const banners = alternate(
-    data.content.filter((item) => item.kind === "banner"),
+  // Banners are image-only and shown in the order set in the admin.
+  const banners = data.content.filter(
+    (item) => item.kind === "banner" && item.image,
   );
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -37,15 +24,7 @@ export function CampaignBanner() {
     );
     return () => window.clearInterval(timer);
   }, [count, paused]);
-  if (!count)
-    return (
-      <section className="campaign-empty">
-        <h2>{copy.bannerEmpty}</h2>
-        <ActionButton className="button" action={{ type: "booking" }}>
-          {copy.headerBooking}
-        </ActionButton>
-      </section>
-    );
+  if (!count) return null;
   const active = Math.min(current, count - 1);
   return (
     <section
@@ -57,10 +36,10 @@ export function CampaignBanner() {
       onBlur={() => setPaused(false)}
     >
       {banners.map((banner, index) => {
-        const image = banner.image && (
+        const image = (
           <ResponsiveImage
             className="cover-banner"
-            src={banner.image}
+            src={banner.image!}
             alt={banner.name}
             sizes="100vw"
             loading={index === 0 ? "eager" : "lazy"}
@@ -69,24 +48,11 @@ export function CampaignBanner() {
         );
         return (
           <div
-            className={`campaign-slide ${banner.image ? "" : "campaign-text"} ${active === index ? "active" : ""}`}
+            className={`campaign-slide ${active === index ? "active" : ""}`}
             key={banner._id}
             hidden={active !== index}
           >
-            {!banner.image ? (
-              <div className="container campaign-text-inner">
-                {banner.eyebrow && (
-                  <p className="campaign-text-eyebrow">{banner.eyebrow}</p>
-                )}
-                <h2>{banner.name}</h2>
-                {banner.summary && <p>{banner.summary}</p>}
-                {banner.link && (
-                  <SiteLink className="campaign-text-link" href={banner.link}>
-                    {banner.buttonLabel || copy.bannerMore}
-                  </SiteLink>
-                )}
-              </div>
-            ) : banner.link ? (
+            {banner.link ? (
               <SiteLink
                 className="campaign-link"
                 href={banner.link}

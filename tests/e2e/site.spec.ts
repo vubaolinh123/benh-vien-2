@@ -62,35 +62,20 @@ test("dropdown works with keyboard and gallery page opens a dialog", async ({
   await expect(page.getByRole("dialog")).toHaveCount(0);
 });
 
-test("booking writes a real request and feedback returns receipt", async ({
+test("booking links open the online registration page and feedback returns receipt", async ({
   page,
 }) => {
   await page.goto("/");
-  const trigger = page.getByRole("button", {
+  const trigger = page.getByRole("link", {
     name: "Đặt lịch ngay",
     exact: true,
   });
-  await trigger.click();
-  await page.getByLabel("Họ và tên *").fill("Khách hàng trình duyệt");
-  await page.getByLabel("Số điện thoại *", { exact: true }).fill("0900000000");
-  await page.getByLabel("Dịch vụ *").selectOption("kham-tong-quat");
-  await page
-    .getByLabel("Ngày khám dự kiến *")
-    .fill(
-      new Date(Date.now() + 86400000).toLocaleDateString("en-CA", {
-        timeZone: "Asia/Ho_Chi_Minh",
-      }),
-    );
-  await page.locator("#booking-form input[name=consent]").check();
-  await page
-    .getByRole("button", { name: "Gửi đăng ký khám", exact: true })
-    .click();
-  await expect(page.getByRole("status")).toContainText(
-    "Đã tiếp nhận yêu cầu đặt lịch",
+  await expect(trigger).toHaveAttribute(
+    "href",
+    "https://38749.byt.vn/kcb/dang-ky-kham",
   );
-  await expect(page.getByRole("status")).toContainText("DA-");
-  await page.keyboard.press("Escape");
-  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute("target", "_blank");
+  await expect(page.locator("button", { hasText: /Đặt lịch/ })).toHaveCount(0);
   await page.locator(".quick-item").filter({ hasText: "Góp ý" }).click();
   await page
     .getByLabel("Nội dung góp ý *")
@@ -248,9 +233,8 @@ test("restored homepage shows old presentation blocks and CMS content", async ({
   await page
     .getByRole("button", { name: "Banner " + (bannerIndex + 1), exact: true })
     .click();
-  await expect(page.locator(".campaign-slide.active")).toContainText(
-    "Gửi trọn niềm tin",
-  );
+  await expect(page.locator(".campaign-slide.active img")).toHaveAttribute("alt", data.content.find((item: {slug:string}) => item.slug === "cong-dong").name);
+  await expect(page.locator(".campaign-text")).toHaveCount(0);
   await expect(page.locator(".facility-tiles img")).toHaveCount(6);
   await expect(page.locator("#department-grid a")).toHaveCount(12);
   await expect(page.locator("#department-grid svg")).toHaveCount(12);

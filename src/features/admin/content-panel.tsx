@@ -1,4 +1,5 @@
 "use client";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 import dynamic from "next/dynamic";
 import { useState, type FormEvent } from "react";
 import { api } from "@/lib/client-api";
@@ -27,14 +28,13 @@ const kinds: Record<ContentItem["kind"], string> = {
   editorial_link: "Thẻ bổ sung trong bài viết",
 };
 const notes: Record<ContentItem["kind"], string> = {
-  service:
-    "Lưới DỊCH VỤ NỔI BẬT sau banner và lựa chọn dịch vụ trong biểu mẫu đặt lịch.",
+  service: "Lưới DỊCH VỤ NỔI BẬT sau banner và trang chi tiết dịch vụ.",
   specialty: "Lưới biểu tượng CHUYÊN KHOA và trang chi tiết chuyên khoa.",
   doctor:
     "Khối ĐỘI NGŨ BÁC SĨ khi trang chủ chọn chế độ hồ sơ bác sĩ hoặc tự động.",
   page: "Trang thông tin theo slug. Giới thiệu trang chủ chỉnh trong Thông tin bệnh viện.",
   banner:
-    "Slider tự chạy ở đầu trang. Có ảnh: chỉ hiển thị ảnh toàn chiều ngang (nên dùng 1920 × 800 px). Không chọn ảnh: thành slide giới thiệu dạng chữ gồm dòng chữ nhỏ, tiêu đề và tóm tắt. Slide ảnh và slide chữ tự xếp xen kẽ nhau.",
+    "Slider ảnh tự chạy ở đầu trang, hiển thị đúng theo Thứ tự hiển thị. Mỗi banner là một ảnh toàn chiều ngang (nên dùng cùng kích thước, ví dụ 1920 × 800 px); bắt buộc chọn ảnh. Tiêu đề chỉ dùng làm mô tả ảnh.",
   gallery:
     "Lưới CƠ SỞ VẬT CHẤT và cột HÌNH ẢNH. Ảnh ưu tiên chọn trong Cấu hình trang chủ.",
   video: "Cột VIDEO cạnh thư viện ảnh và trang Thư viện video.",
@@ -87,6 +87,10 @@ export default function ContentPanel() {
   }
   async function save(event: FormEvent) {
     event.preventDefault();
+    if (draft?.kind === "banner" && !draft.image) {
+      setError("Banner phải có ảnh. Hãy tải ảnh lên trước khi lưu.");
+      return;
+    }
     setSaving(true);
     setError("");
     try {
@@ -194,20 +198,24 @@ export default function ContentPanel() {
                 value={draft.order}
                 onChange={(event) => field("order", Number(event.target.value))}
               />
-              <small>Số nhỏ hơn xuất hiện trước trong cùng nhóm.</small>
-            </label>
-            <label className="field full">
-              Tóm tắt
-              <textarea
-                maxLength={600}
-                value={draft.summary}
-                onChange={(event) => field("summary", event.target.value)}
-              />
               <small>
-                Mô tả dưới tiêu đề; với banner chỉ hiện trên slide chữ (banner
-                không có ảnh).
+                Số nhỏ hơn xuất hiện trước trong cùng nhóm. Nên dùng các số khác
+                nhau để dễ sắp xếp.
               </small>
             </label>
+            {kind !== "banner" && (
+              <label className="field full">
+                Tóm tắt
+                <textarea
+                  maxLength={600}
+                  value={draft.summary}
+                  onChange={(event) => field("summary", event.target.value)}
+                />
+                <small>
+                  Mô tả dưới tiêu đề; banner không hiển thị nội dung này.
+                </small>
+              </label>
+            )}
             {["promotion", "editorial_link"].includes(kind) && (
               <label className="field">
                 Vị trí trên trang chủ
@@ -246,7 +254,9 @@ export default function ContentPanel() {
                   }
                 >
                   <option value="link">Mở liên kết</option>
-                  <option value="booking">Mở đặt lịch khám</option>
+                  <option value="booking">
+                    Mở trang đăng ký khám (tab mới)
+                  </option>
                   <option value="feedback">Mở góp ý</option>
                   <option value="gallery">Mở thư viện ảnh</option>
                 </select>
@@ -327,7 +337,7 @@ export default function ContentPanel() {
                 )}
               </>
             )}
-            {["promotion", "care_activity", "banner"].includes(kind) && (
+            {["promotion", "care_activity"].includes(kind) && (
               <label className="field">
                 Dòng chữ nhỏ
                 <input
@@ -341,7 +351,7 @@ export default function ContentPanel() {
                 </small>
               </label>
             )}
-            {["promotion", "banner"].includes(kind) && (
+            {kind === "promotion" && (
               <label className="field">
                 Nhãn nút bấm
                 <input
@@ -350,8 +360,7 @@ export default function ContentPanel() {
                   onChange={(event) => field("buttonLabel", event.target.value)}
                 />
                 <small>
-                  Thay chữ của nút trên thẻ ảnh hoặc slide chữ; để trống dùng
-                  nhãn mặc định.
+                  Thay chữ của nút trên thẻ ảnh; để trống dùng nhãn mặc định.
                 </small>
               </label>
             )}
@@ -435,6 +444,7 @@ export default function ContentPanel() {
         <table>
           <thead>
             <tr>
+              {kind === "banner" && <th>Ảnh banner</th>}
               <th>Tên</th>
               <th>Đường dẫn</th>
               <th>Vị trí</th>
@@ -446,6 +456,18 @@ export default function ContentPanel() {
           <tbody>
             {data.items.map((item) => (
               <tr key={item._id}>
+                {kind === "banner" && (
+                  <td>
+                    {item.image && (
+                      <ResponsiveImage
+                        src={item.image}
+                        alt={item.name}
+                        width={160}
+                        style={{ maxWidth: 160, height: "auto" }}
+                      />
+                    )}
+                  </td>
+                )}
                 <td>{item.name}</td>
                 <td>{item.slug}</td>
                 <td>{item.placement || kinds[item.kind]}</td>
