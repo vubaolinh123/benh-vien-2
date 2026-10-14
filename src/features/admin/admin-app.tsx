@@ -19,6 +19,7 @@ import { Message } from "./shared";
 const loading = () => <p role="status">Đang mở chức năng…</p>;
 const Dashboard = dynamic(() => import("./dashboard-panel"), { loading });
 const MediaLibrary = dynamic(() => import("./media-panel"), { loading });
+const Pages = dynamic(() => import("./pages-panel"), { loading });
 const Posts = dynamic(() => import("./posts-panel"), { loading });
 const Users = dynamic(() => import("./users-panel"), { loading });
 const Appointments = dynamic(() => import("./appointments-panel"), { loading });
@@ -33,6 +34,11 @@ const tabs: { id: string; name: string; roles: Role[] }[] = [
   {
     id: "media",
     name: "Thư viện ảnh",
+    roles: ["administrator", "communications"],
+  },
+  {
+    id: "pages",
+    name: "Trang giới thiệu",
     roles: ["administrator", "communications"],
   },
   { id: "posts", name: "Bài viết", roles: ["administrator", "communications"] },
@@ -304,7 +310,7 @@ export default function AdminApp() {
             <MediaLibrary />
           )}
           {tab === "posts" && available.some((item) => item.id === tab) && (
-            <Posts />
+            <Posts onManagePages={() => setTab("pages")} />
           )}
           {tab === "library" && available.some((item) => item.id === tab) && (
             <Library />
@@ -315,6 +321,9 @@ export default function AdminApp() {
             )}
           {tab === "feedback" && available.some((item) => item.id === tab) && (
             <Feedback onChange={refreshNotices} />
+          )}
+          {tab === "pages" && available.some((item) => item.id === tab) && (
+            <Pages />
           )}
           {tab === "content" && user.role === "administrator" && <Content />}
           {tab === "users" && user.role === "administrator" && <Users />}

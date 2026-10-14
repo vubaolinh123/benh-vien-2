@@ -26,7 +26,11 @@ const empty: Draft = {
   image: "",
   status: "draft",
 };
-export default function PostsPanel() {
+export default function PostsPanel({
+  onManagePages,
+}: {
+  onManagePages?: () => void;
+}) {
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("");
@@ -78,6 +82,20 @@ export default function PostsPanel() {
           Thêm bài viết
         </button>
       </div>
+      {onManagePages && (
+        <p className="admin-note">
+          Muốn sửa nội dung Trang chủ → Giới thiệu bệnh viện?{" "}
+          <button
+            type="button"
+            disabled={Boolean(draft)}
+            onClick={onManagePages}
+          >
+            Sửa trang Giới thiệu bệnh viện
+          </button>{" "}
+          Chọn mục Trang giới thiệu; nội dung này không thuộc chuyên mục tin
+          tức.
+        </p>
+      )}
       <ImpactNote>
         Chuyên mục quyết định vị trí: Tin tức → Tin nổi bật và cột Tin tức; Sống
         khỏe → cột Sống khỏe; Hỏi đáp → thẻ Hỏi đáp chuyên gia. Tiêu đề, tóm

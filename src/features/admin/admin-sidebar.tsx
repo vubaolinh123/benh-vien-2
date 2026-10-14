@@ -23,7 +23,15 @@ const groups = [
   { label: "Điều hành", ids: ["dashboard"] },
   {
     label: "Website",
-    ids: ["homepage", "posts", "library", "media", "content", "settings"],
+    ids: [
+      "homepage",
+      "posts",
+      "pages",
+      "library",
+      "media",
+      "content",
+      "settings",
+    ],
   },
   { label: "Tiếp nhận", ids: ["appointments", "feedback"] },
   { label: "Hệ thống", ids: ["users", "password"] },

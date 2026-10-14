@@ -86,3 +86,9 @@ File nằm ở thư mục UPLOAD_DIR của backend (cục bộ: D:/ProjectWeb/be
 Khi xóa bài/nội dung hoặc thay ảnh, ảnh cũ được lên lịch kiểm tra sau 24 giờ. Nếu còn dùng trong bài khác, bài nháp, nội dung đang ẩn, logo, giới thiệu hoặc cấu hình website, file được giữ lại. Ảnh upload nhưng không lưu vào nội dung tự dọn sau 7 ngày. Chọn lại từ thư viện gia hạn thời gian để soạn bài.
 
 Nút Dọn ảnh lên lịch xóa sau 24 giờ; chỉ bật khi ảnh chưa được sử dụng. Backend kiểm tra mỗi giờ và kiểm tra lại tham chiếu ngay trước khi xóa file; nếu backend đang tắt, việc dọn tiếp tục khi khởi động lại. Thời gian chờ giúp các trang đang cache tiếp tục tải ảnh. Ảnh đã xóa file không khôi phục trong ứng dụng; cần upload lại hoặc phục hồi bản sao lưu.
+
+## Sửa trang Giới thiệu bệnh viện
+
+Administrator và Truyền thông vào **Trang giới thiệu** trên sidebar, hoặc bấm **Sửa trang Giới thiệu bệnh viện** trong mục Bài viết. Chọn **Trang chủ → Giới thiệu bệnh viện** để sửa /gioi-thieu/; các lựa chọn còn lại tương ứng Sứ mệnh – tầm nhìn, Hệ thống y tế, Hoạt động bệnh viện và Văn hóa doanh nghiệp.
+
+Sửa tiêu đề, mô tả, ảnh và nội dung bằng trình soạn blog, bật Hiển thị công khai rồi bấm **Lưu trang giới thiệu**. Dữ liệu cũ được nạp để chỉnh tiếp; không cần tạo bài Tin tức hoặc tự nhập slug. Thay đổi có thể mất khoảng 1–2 phút để hiển thị do cache. Đoạn giới thiệu ngắn trên trang chủ vẫn chỉnh tại Thông tin bệnh viện; trang Giới thiệu riêng ưu tiên nội dung đã xuất bản ở đây. Nếu trang tổng quan chưa có nội dung công khai, website vẫn dùng đoạn giới thiệu dự phòng của Thông tin bệnh viện.
